@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Job Dashboard{% endblock %}
+{% block content %}
+<h1 style="margin-bottom: 1.5rem;">Job Listings</h1>
+
+<div class="card" style="margin-bottom: 2rem;">
+    <form method="get" style="display: flex; gap: 1rem; align-items: center;">
+        <div>
+            <label>Source</label>
+            <select name="source" style="width: auto; margin-bottom: 0;">
+                <option value="">All Sources</option>
+                <option value="linkedin" {% if request.args.get('source')=='linkedin' %}selected{% endif %}>LinkedIn</option>
+                <option value="jobstreet" {% if request.args.get('source')=='jobstreet' %}selected{% endif %}>JobStreet</option>
+                <option value="indeed" {% if request.args.get('source')=='indeed' %}selected{% endif %}>Indeed</option>
+                <option value="glints" {% if request.args.get('source')=='glints' %}selected{% endif %}>Glints</option>
+                <option value="kalibrr" {% if request.args.get('source')=='kalibrr' %}selected{% endif %}>Kalibrr</option>
+                <option value="career_page" {% if request.args.get('source')=='career_page' %}selected{% endif %}>Career Pages</option>
+            </select>
+        </div>
+        <div>
+            <label>Status</label>
+            <select name="status" style="width: auto; margin-bottom: 0;">
+                <option value="">All</option>
+                <option value="undecided" {% if request.args.get('status')=='undecided' %}selected{% endif %}>Undecided</option>
+                <option value="applied" {% if request.args.get('status')=='applied' %}selected{% endif %}>Applied</option>
+                <option value="not_interested" {% if request.args.get('status')=='not_interested' %}selected{% endif %}>Not Interested</option>
+            </select>
+        </div>
+        <div style="margin-top: 1.5rem;">
+            <button type="submit" class="btn" style="background: #2c3e50; color: white;">Filter</button>
+        </div>
+    </form>
+</div>
+
+{% for job in jobs %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+        <div>
+            <h3 style="margin-bottom: 0.25rem;">{{ job.title }}</h3>
+            <p style="color: #666;">{{ job.company }} &middot; {{ job.location or 'Location not specified' }}</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <span class="badge source-{{ job.source }}" style="color: white;">{{ job.source }}</span>
+            {% if job.feedback %}
+                <span class="badge badge-{{ job.feedback[0].status }}">{{ job.feedback[0].status|replace('_', ' ') }}</span>
+            {% else %}
+                <span class="badge badge-undecided">Undecided</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <p style="color: #555; margin: 1rem 0;">{{ job.description }}</p>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+        <div style="font-size: 0.875rem; color: #888;">
+            {% if job.posted_date %}Posted: {{ job.posted_date.strftime('%Y-%m-%d') }}{% endif %}
+            &middot; Scraped: {{ job.scraped_at.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+            <a href="{{ job.source_url }}" target="_blank" class="btn btn-applied">Apply</a>
+            <button onclick="recordFeedback({{ job.id }}, 'applied')" class="btn btn-applied">Applied</button>
+            <button onclick="recordFeedback({{ job.id }}, 'not_interested')" class="btn btn-not-interested">Not Interested</button>
+            <button onclick="recordFeedback({{ job.id }}, 'skip')" class="btn btn-skip">Skip</button>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if not jobs %}
+<div class="card" style="text-align: center; color: #888; padding: 3rem;">
+    No jobs found. Run the scraper to fetch jobs.
+</div>
+{% endif %}
+
+<script>
+async function recordFeedback(jobId, status) {
+    try {
+        const resp = await fetch(`/feedback/record?job_id=${jobId}&status=${status}`);
+        const data = await resp.json();
+        if (data.success) {
+            location.reload();
+        }
+    } catch (e) {
+        alert('Error recording feedback');
+    }
+}
+</script>
+{% endblock %}

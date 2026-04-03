@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(*)",
+      "Read",
+      "Edit",
+      "WebFetch",
+      "Bash(cd*)",
+      "Bash(ls:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}

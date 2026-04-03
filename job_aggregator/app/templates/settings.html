@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<h1 style="margin-bottom: 1.5rem;">Settings</h1>
+
+<div class="card">
+    <h2 style="margin-bottom: 1rem;">Job Preferences</h2>
+    <form id="prefsForm">
+        <div>
+            <label>Job Titles / Keywords</label>
+            <input type="text" id="job_titles" placeholder="e.g. Data Analyst, Business Analyst, Finance">
+            <small style="color: #888;">Comma-separated</small>
+        </div>
+        <div>
+            <label>Seniority Level</label>
+            <select id="seniority">
+                <option value="">All levels</option>
+                <option value="entry">Entry Level / Fresh Graduate</option>
+                <option value="mid">Mid Level</option>
+                <option value="senior">Senior Level</option>
+            </select>
+        </div>
+        <div>
+            <label>Location</label>
+            <input type="text" id="location" placeholder="e.g. Jakarta, Indonesia">
+        </div>
+        <div>
+            <label>Excluded Companies</label>
+            <input type="text" id="excluded_companies" placeholder="e.g. Company A, Company B">
+            <small style="color: #888;">Companies to ignore</small>
+        </div>
+        <button type="submit" class="btn btn-applied">Save Preferences</button>
+    </form>
+</div>
+
+<div class="card" style="margin-top: 1rem;">
+    <h2 style="margin-bottom: 1rem;">Email Digest Schedule</h2>
+    <p style="color: #666; margin-bottom: 1rem;">Current schedule: 11:00 AM and 2:30 PM (Asia/Jakarta)</p>
+    <p style="color: #888; font-size: 0.875rem;">Schedule editing coming soon. Edit DIGEST_SCHEDULE in .env for now.</p>
+</div>
+
+<div class="card" style="margin-top: 1rem;">
+    <h2 style="margin-bottom: 1rem;">Tracked Sources</h2>
+    <p style="color: #666;">Track A (Public Portals): LinkedIn, JobStreet, Indeed, Glints, Kalibrr</p>
+    <p style="color: #666; margin-top: 0.5rem;">Track B (Career Pages): BCA, Bank Mandiri, Bank BRI, PwC, Deloitte, KPMG, Barito Pacific</p>
+</div>
+
+<script>
+async function loadPrefs() {
+    const resp = await fetch('/settings/api/preferences');
+    const prefs = await resp.json();
+
+    if (prefs.job_titles) {
+        const titles = typeof prefs.job_titles === 'string' ? prefs.job_titles : prefs.job_titles.join(', ');
+        document.getElementById('job_titles').value = titles;
+    }
+    if (prefs.seniority) document.getElementById('seniority').value = prefs.seniority;
+    if (prefs.location) document.getElementById('location').value = prefs.location;
+    if (prefs.excluded_companies) {
+        const companies = typeof prefs.excluded_companies === 'string' ? prefs.excluded_companies : prefs.excluded_companies.join(', ');
+        document.getElementById('excluded_companies').value = companies;
+    }
+}
+
+document.getElementById('prefsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const prefs = {
+        job_titles: document.getElementById('job_titles').value.split(',').map(s => s.trim()).filter(Boolean),
+        seniority: document.getElementById('seniority').value,
+        location: document.getElementById('location').value,
+        excluded_companies: document.getElementById('excluded_companies').value.split(',').map(s => s.trim()).filter(Boolean)
+    };
+
+    const resp = await fetch('/settings/api/preferences', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(prefs)
+    });
+
+    if (resp.ok) {
+        alert('Preferences saved!');
+    }
+});
+
+loadPrefs();
+</script>
+{% endblock %}

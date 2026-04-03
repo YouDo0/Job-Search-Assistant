@@ -1,0 +1,287 @@
+
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; }
+.prd { font-family: var(--font-sans); color: var(--color-text-primary); padding: 24px 0; max-width: 100%; }
+.prd-header { border-bottom: 1px solid var(--color-border-tertiary); padding-bottom: 16px; margin-bottom: 24px; }
+.prd-title { font-size: 20px; font-weight: 500; margin: 0 0 4px; }
+.prd-meta { font-size: 12px; color: var(--color-text-tertiary); display: flex; gap: 16px; flex-wrap: wrap; }
+.status-badge { background: var(--color-background-info); color: var(--color-text-info); border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 500; }
+.section { margin-bottom: 28px; }
+.section-title { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-secondary); margin: 0 0 12px; }
+.editable { border: 1px solid transparent; border-radius: 6px; padding: 6px 8px; cursor: text; transition: border-color 0.15s; line-height: 1.6; font-size: 14px; color: var(--color-text-primary); width: 100%; background: transparent; font-family: var(--font-sans); }
+.editable:hover { border-color: var(--color-border-secondary); }
+.editable:focus { outline: none; border-color: var(--color-border-primary); background: var(--color-background-secondary); }
+.card { border: 1px solid var(--color-border-tertiary); border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; }
+.card-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+.card-row:last-child { margin-bottom: 0; }
+.card-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); min-width: 80px; padding-top: 7px; text-transform: uppercase; letter-spacing: 0.05em; }
+.card .editable { flex: 1; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
+.tag { background: var(--color-background-secondary); border: 1px solid var(--color-border-secondary); border-radius: 4px; padding: 3px 8px; font-size: 12px; cursor: text; }
+.tag[contenteditable]:focus { outline: 1px solid var(--color-border-primary); border-radius: 4px; }
+.add-btn { background: none; border: 1px dashed var(--color-border-secondary); border-radius: 4px; padding: 3px 10px; font-size: 12px; color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-sans); }
+.add-btn:hover { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+.table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table th { font-weight: 500; text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border-tertiary); color: var(--color-text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+.table td { padding: 8px 10px; border-bottom: 1px solid var(--color-border-tertiary); vertical-align: top; }
+.table tr:last-child td { border-bottom: none; }
+.table td[contenteditable]:focus { outline: 1px solid var(--color-border-primary); border-radius: 4px; background: var(--color-background-secondary); }
+.p-high { color: var(--color-text-danger); }
+.p-med { color: var(--color-text-warning); }
+.p-low { color: var(--color-text-success); }
+.divider { border: none; border-top: 1px solid var(--color-border-tertiary); margin: 28px 0; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
+.help { font-size: 11px; color: var(--color-text-tertiary); margin-top: 4px; padding-left: 8px; }
+</style>
+
+<div class="prd">
+  <div class="prd-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+      <div class="prd-title" contenteditable="true">Job Aggregator & Notifier — Product Requirements Document</div>
+      <span class="status-badge">Draft</span>
+    </div>
+    <div class="prd-meta">
+      <span>Owner: <span contenteditable="true" style="color:var(--color-text-primary)">You</span></span>
+      <span>Version: <span contenteditable="true" style="color:var(--color-text-primary)">0.1</span></span>
+      <span>Last updated: <span contenteditable="true" style="color:var(--color-text-primary)">March 2026</span></span>
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section-title">Overview</div>
+    <div class="editable" contenteditable="true">A personal job aggregator that runs 24/7 on a VPS, pulling listings from public job portals (LinkedIn, JobStreet, Indeed) and monitoring career pages of individual companies. It filters jobs by user preferences, learns from application history, and sends a daily email digest with clickable apply links.</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Problem & Goals -->
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">Problem</div>
+      <div class="editable" contenteditable="true">Manually checking multiple job portals and individual company career pages is time-consuming. Opportunities from companies with their own portals (e.g. BCA, Mandiri, Deloitte) are easy to miss. There is no single place that surfaces all relevant openings based on personal fit.</div>
+    </div>
+    <div class="section">
+      <div class="section-title">Goals</div>
+      <div class="editable" contenteditable="true">1. Aggregate jobs from public portals and company-owned career pages in one system.
+2. Filter results based on configurable personal preferences.
+3. Learn from application history to improve relevance over time.
+4. Deliver a single daily email digest with apply links.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Data Sources -->
+  <div class="section">
+    <div class="section-title">Data Sources</div>
+    <div class="card">
+      <div class="card-row">
+        <span class="card-label">Track A</span>
+        <div style="flex:1">
+          <div class="editable" contenteditable="true">Public job portals — LinkedIn, JobStreet, Indeed, Glints, Kalibrr</div>
+          <div class="help">Scraped or via official API where available</div>
+        </div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Track B</span>
+        <div style="flex:1">
+          <div class="editable" contenteditable="true">Company-owned career pages — BCA, Bank Mandiri, Bank BRI, PwC, Deloitte, KPMG, Barito Pacific, and others discovered automatically</div>
+          <div class="help">Monitored separately; discovered when their name appears in Track A listings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- User Preferences -->
+  <div class="section">
+    <div class="section-title">User Preferences (Configurable)</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Preference</th>
+          <th>Current Value</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Job titles / keywords</td>
+          <td contenteditable="true">e.g. Data Analyst, Business Analyst, Finance</td>
+          <td contenteditable="true">Match against title and description</td>
+        </tr>
+        <tr>
+          <td>Seniority level</td>
+          <td contenteditable="true">Entry level / Fresh graduate</td>
+          <td contenteditable="true">Filter out mid/senior roles</td>
+        </tr>
+        <tr>
+          <td>Location</td>
+          <td contenteditable="true">All locations (no restriction)</td>
+          <td contenteditable="true">Can be narrowed later</td>
+        </tr>
+        <tr>
+          <td>Salary band</td>
+          <td contenteditable="true">No restriction</td>
+          <td contenteditable="true">Can be narrowed later</td>
+        </tr>
+        <tr>
+          <td>Excluded companies</td>
+          <td contenteditable="true">None yet</td>
+          <td contenteditable="true">Blacklist to stop repeated noise</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="help" style="margin-top:8px">All preferences editable via a simple settings UI or config file at any time</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Smart Learning -->
+  <div class="section">
+    <div class="section-title">Smart Learning System</div>
+    <div class="card">
+      <div class="card-row">
+        <span class="card-label">Input</span>
+        <div class="editable" contenteditable="true" style="flex:1">User marks each job in the digest as: ✅ Applied, ❌ Not Interested, or leaves it unmarked (undecided)</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Output</span>
+        <div class="editable" contenteditable="true" style="flex:1">System builds a profile of preferred job titles, required skills, company types, and industries from marked history</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Effect</span>
+        <div class="editable" contenteditable="true" style="flex:1">Future digests surface more jobs similar to "Applied" ones and fewer matching "Not Interested" patterns — even if not explicitly in the preference settings</div>
+        </div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Approach</span>
+        <div class="editable" contenteditable="true" style="flex:1">Start with rule-based filtering (keyword matching, preferred companies, seniority) — ML can be added later once enough feedback history is collected</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Discovery</span>
+        <div class="editable" contenteditable="true" style="flex:1">When a company appears in a public portal listing, system auto-checks if they have a dedicated career page and adds it to Track B monitoring</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Notification -->
+  <div class="section">
+    <div class="section-title">Notification & Delivery</div>
+    <div class="card">
+      <div class="card-row">
+        <span class="card-label">Channel</span>
+        <div class="editable" contenteditable="true" style="flex:1">Email</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Schedule</span>
+        <div class="editable" contenteditable="true" style="flex:1">Twice daily at 11:00 AM and 2:30 PM (local timezone) — times configurable</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Format</span>
+        <div class="editable" contenteditable="true" style="flex:1">Consolidated digest — job title, company name, source portal, brief description snippet, direct apply link, and three feedback buttons (Applied / Not Interested / Skip) — each button is a clickable URL that opens the web app to record your response</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Infrastructure -->
+  <div class="section">
+    <div class="section-title">Infrastructure</div>
+    <div class="card">
+      <div class="card-row">
+        <span class="card-label">Hosting</span>
+        <div class="editable" contenteditable="true" style="flex:1">Personal VPS — runs 24/7, no dependency on local machine being online</div>
+      </div>
+      <div class="card-row">
+        <span class="card-label">Settings UI</span>
+        <div class="editable" contenteditable="true" style="flex:1">Simple web-based settings panel or CLI to update preferences, schedule, email, and company watchlist at any time</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Features Backlog -->
+  <div class="section">
+    <div class="section-title">Feature Backlog</div>
+    <table class="table">
+      <thead>
+        <tr><th>Feature</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="true">Public portal scraping (LinkedIn, JobStreet, Indeed)</td>
+          <td><span class="p-high" contenteditable="true">High</span></td>
+          <td contenteditable="true">Core MVP</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Company career page monitoring (Track B)</td>
+          <td><span class="p-high" contenteditable="true">High</span></td>
+          <td contenteditable="true">Core MVP</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Preference filtering (title, level, location, salary)</td>
+          <td><span class="p-high" contenteditable="true">High</span></td>
+          <td contenteditable="true">Core MVP</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Daily email digest with apply links</td>
+          <td><span class="p-high" contenteditable="true">High</span></td>
+          <td contenteditable="true">Core MVP</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Feedback buttons (Applied / Not Interested / Skip)</td>
+          <td><span class="p-high" contenteditable="true">High</span></td>
+          <td contenteditable="true">Needed for learning to work</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Auto-discovery of company career pages</td>
+          <td><span class="p-med" contenteditable="true">Medium</span></td>
+          <td contenteditable="true">Smart expansion of Track B</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Learning from application history</td>
+          <td><span class="p-med" contenteditable="true">Medium</span></td>
+          <td contenteditable="true">Improves relevance over time</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Settings panel / config UI</td>
+          <td><span class="p-med" contenteditable="true">Medium</span></td>
+          <td contenteditable="true">Web UI or CLI</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Duplicate job detection</td>
+          <td><span class="p-low" contenteditable="true">Low</span></td>
+          <td contenteditable="true">Same job appearing on multiple portals</td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Multi-channel notifications (WhatsApp, Telegram)</td>
+          <td><span class="p-low" contenteditable="true">Low</span></td>
+          <td contenteditable="true">Future enhancement</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Open Questions -->
+  <div class="section">
+    <div class="section-title">Open Questions</div>
+    <div class="editable" contenteditable="true">1. Which job portals have official APIs vs require scraping?
+2. How to handle anti-scraping measures on public portals?
+3. What tech stack — Python (BeautifulSoup / Playwright) for scraping, Celery or cron for scheduling?
+4. Where to store job history and user feedback — SQLite, PostgreSQL?
+5. How to structure the email template for feedback buttons to work simply?</div>
+  </div>
+
+  <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:8px">All fields above are editable — click any text to update it</div>
+</div>
