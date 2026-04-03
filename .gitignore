@@ -1,4 +1,33 @@
-job_aggregator.md
-job_aggregator.html
+# PRD files (if tracked separately)
+job_aggregator_prd.md
+job_aggregator_prd.html
 
+# Claude settings
 .claude/settings.local.json
+
+# Job Aggregator project
+job_aggregator/
+job_aggregator/.env
+job_aggregator/__pycache__/
+job_aggregator/*.py[cod]
+job_aggregator/*.pyc
+job_aggregator/*.db
+job_aggregator/*.sqlite
+job_aggregator/*.sqlite3
+job_aggregator/.venv/
+job_aggregator/venv/
+job_aggregator/.eggs/
+job_aggregator/*.egg-info/
+job_aggregator/dist/
+job_aggregator/build/
+job_aggregator/.vscode/
+job_aggregator/.idea/
+job_aggregator/*.log
+job_aggregator/logs/
+job_aggregator/celerybeat-schedule
+job_aggregator/celerybeat-schedule.db
+job_aggregator/staticfiles/
+job_aggregator/media/
+job_aggregator/.pytest_cache/
+job_aggregator/.coverage
+job_aggregator/htmlcov/
